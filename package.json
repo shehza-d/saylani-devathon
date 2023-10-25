@@ -1,0 +1,23 @@
+{
+  "name": "saylani-devathon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "format": "cd backend && npx prettier --write . && cd ../frontend && npx prettier --write .",
+    "deploy": "cd backend && npm run deploy && cd ../frontend && npm run deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shehza-d/saylani-devathon.git"
+  },
+  "keywords": [
+    "hackathon"
+  ],
+  "author": "shehzad",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shehza-d/saylani-devathon/issues"
+  },
+  "homepage": "https://github.com/shehza-d/saylani-devathon#readme"
+}
