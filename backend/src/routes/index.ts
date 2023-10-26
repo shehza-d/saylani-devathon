@@ -1,4 +1,4 @@
-import { faqRouter } from "./faq.mjs";
+import { crudRouter } from "./crud.mjs";
 import { authRouter } from "./auth.mjs";
 
-export { faqRouter, authRouter };
+export { crudRouter, authRouter };

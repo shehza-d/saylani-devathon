@@ -12,39 +12,27 @@ try {
 }
 
 // to know if db connection is successful
-async function run() {
+const testDB = async () => {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     // Send a ping to confirm a successful connection
-    await client.db("faqs").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+    await client.db(DB_NAME).command({ ping: 1 });
+    console.log("Pinged your deployment. Successfully connected to MongoDB");
   } catch (err) {
-    console.log("🚀 ~ file: index.mts:26 ~ run ~ err:", err);
+    console.log("🚀 file:index.mts:26 ~ err:", err);
+    await client.close();
+    process.exit(1);
   }
-  // finally {
-  //   // Ensures that the client will close when you finish/error
-  //   await client.close();
-  // }
-}
-run().catch(console.dir);
+};
+testDB();
 
 process.on("SIGINT", async (code) => {
   // Code to run before the server exits
-  console.log(`Server is about to exit with code ${code}`);
+  console.log(`Server is terminating with code ${code}`);
 
   // Cleanup code
-  // For example, you can close database connections, write logs, etc.
   await client.close();
-  // process.exit(0);
+  process.exit(0);
 });
 
 export { database as db };
-
-// "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.mjs\"",
-
-// finally {
-//   // Ensures that the client will close when you finish/error
-//   await client.close(); }

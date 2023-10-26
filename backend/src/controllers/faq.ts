@@ -8,48 +8,12 @@ const collection = "faqs";
 const faqsCollection = db.collection<IFaq>(collection);
 
 const getAllFaqs = async (req: Request, res: Response) => {
-  const { search } = req?.query;
-  const queryText: any = search || ""; // empty string to fetch all data
-
-  let query;
   try {
-    if (queryText) {
-      const documents = await faqsCollection
-        .aggregate([
-          {
-            $search: {
-              index: "default", // this is name of my index
-              knnBeta: {
-                path: "faq_embedding",
-                k: 15,
-              },
-              scoreDetails: true, //this is different
-            },
-          },
-          {
-            $project: {
-              faq_embedding: 0,
-              score: { $meta: "searchScore" }, // and this is different
-              scoreDetails: { $meta: "searchScoreDetails" },
-            },
-            // $limit: 20, //this is not working
-          },
-        ])
-        .toArray();
-      console.log("🚀 ~ file: faq.ts:35 ~ getAllFaqs ~ documents:", documents);
-
-      res.status(200).send({ message: "testing search", documents });
-      return;
-    } else {
-      query = {};
-    }
-
-    console.log("normal");
-
     const data = await faqsCollection
       .find<IFaq>({})
       .sort({ _id: -1 })
-      .project({ faq_embedding: 0 })
+      // .project({ password: 0 })
+      .limit(150)
       .toArray();
 
     if (!data.length) {
@@ -128,22 +92,20 @@ const updateFaq = async (req: Request, res: Response) => {
     res.status(403).send({ message: "Incorrect FAQ id" });
     return;
   }
+
   if ((!question && !topic && !answer) || !id) {
     res.status(403).send({ message: "Required parameter missing!" });
     return;
   }
-  if (question && typeof question !== "string") {
+  if (question && (typeof question !== "string" || question.length > 250)) {
     res.status(403).send("question missing");
     return;
   }
-  if (answer && typeof answer !== "string") {
+  if (answer && (typeof answer !== "string" || answer.length > 250)) {
     res.status(403).send("answer missing");
     return;
   }
-  if (topic && typeof topic !== "string") {
-    res.status(403).send("topic missing");
-    return;
-  }
+  
 
   let faq: Partial<IFaq> = {};
 
