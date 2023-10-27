@@ -30,10 +30,10 @@ export const signupHandler: RequestHandler = async (req, res, next) => {
   }
 
   email = email.toLowerCase();
+  name = name.toLowerCase();
 
   try {
     const result = await userCol.findOne({ email });
-    console.log("result: ", result);
 
     if (result) {
       // user already exists
@@ -53,7 +53,7 @@ export const signupHandler: RequestHandler = async (req, res, next) => {
     });
     console.log("insertResponse: ", insertResponse);
 
-    res.send({ message: "Signup successfully!" });
+    res.status(200).send({ message: "Signup successfully!" });
   } catch (err) {
     console.log("error getting data mongodb: ", err);
     res.status(500).send({ message: "Server error, please try again later." });

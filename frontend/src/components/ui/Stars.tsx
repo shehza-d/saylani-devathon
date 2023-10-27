@@ -1,3 +1,5 @@
+// Rating Stars
+
 export default function Stars({ filled }: { filled: number }) {
   return (
     <div className="flex gap-1">

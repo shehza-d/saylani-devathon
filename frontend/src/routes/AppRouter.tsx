@@ -4,12 +4,16 @@ import { Routes, Route, Link, Navigate } from "react-router-dom";
 import { AuthPage, UserList, ChatScreen, UserProfile } from "../pages";
 // import axios from "axios";
 import NavBar from "../components/ui/NavBar";
+import useCheckLoginStatus from "../hooks/useCheckLoginStatus";
 
 export default function AppRouter() {
-  // const { state, dispatch } = useContext(GlobalContext);
+  const { state, dispatch } = useContext(GlobalContext);
+  useCheckLoginStatus()
   // const [state, setTesting] = useState<any>({ isLogin: null });
-  // const { isLogin } = state;
-  let isLogin = true;
+  const { isLogin } = state;
+
+  console.log("🚀 ~ file: AppRouter.tsx:12 ~ AppRouter ~ isLogin:", isLogin)
+  // let isLogin = true;
   // console.log("state", state);
   // setTimeout(() => {
   //   setTesting({ isLogin: false });

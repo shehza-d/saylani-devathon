@@ -9,7 +9,7 @@ export interface IUser {
   isAdmin:boolean
 }
 
-export interface IFaq {
+export interface IFaq {//remove
   _id?: ObjectId;
   createdOn: Date;
   question: string;

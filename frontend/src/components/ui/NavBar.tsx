@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { GlobalContext } from "../../context/index";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { getUrl } from "../../helpers";
 
 const navLinks = [
   { title: "home", link: "/", id: 1 },
@@ -12,13 +13,14 @@ const navLinks = [
 
 export default function NavBar() {
   const { state, dispatch } = useContext(GlobalContext);
+console.log('getUrl()',getUrl());
 
   const logoutHandler = async () => {
     try {
       const response = await axios.post(
-        `${state.baseUrl}/logout`,
+        `${getUrl()}/logout`,
         {},
-        { withCredentials: true }
+        { withCredentials: true },
       );
       console.log("response: ", response);
       toast.success("Here is your toast.");
@@ -39,9 +41,7 @@ export default function NavBar() {
           </li>
         ))}
       </ul>
-      <div>
-        {state?.user?.firstName} {state?.user?.lastName}
-      </div>
+      <p className="capitalize">{state?.user?.name}</p>
       <button className="border" onClick={logoutHandler}>
         Logout
       </button>

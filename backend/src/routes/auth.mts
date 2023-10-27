@@ -1,19 +1,23 @@
 import express from "express";
-// import {
-//   getAllFaqs,
-//   getFaq,
-//   addFaq,
-//   updateFaq,
-//   deleteFaq,
-//   deleteAllFaqs,
-// } from "../controllers/faq.js";
+import {
+  loginHandler,
+  signupHandler,
+  forgetPassword,
+} from "../controllers/auth/index.js";
 
 const router = express.Router();
 
-router.post("/signup", () => {});
-router.post("/login", () => {});
-router.post("/logout", () => {});
-router.post("/forget-password", () => {});
-router.post("/change-password", () => {}); // this is a user route not auth route
+router.post("/login", loginHandler);
+router.post("/signup", signupHandler);
+router.post("/logout", (req, res) => {
+  res.clearCookie("myToken", {
+    httpOnly: true,
+    sameSite: "none",
+    secure: true,
+  });
+  res.send({ message: "Logout successful" });
+});
+
+router.post("/forget-password", forgetPassword);
 
 export { router as authRouter };

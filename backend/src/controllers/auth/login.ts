@@ -21,13 +21,13 @@ export const loginHandler: RequestHandler = async (req, res, next) => {
 
   try {
     const result = await userCol.findOne({ email });
-    console.log("result: ", result);
 
     if (!result) {
       // user not found
-      res.status(403).send({ message: "Incorrect email or password!" });
+      res.status(401).send({ message: "Incorrect email or password!" });
       return;
     }
+
     // user found
 
     const isMatch = await verifyHash(password, result.password);
@@ -39,9 +39,10 @@ export const loginHandler: RequestHandler = async (req, res, next) => {
 
     const token = jwt.sign(
       {
-        isAdmin: false,
+        isAdmin: result.isAdmin,
         name: result.name,
         email,
+        _id: result._id,
       },
       SECRET,
       { expiresIn: "24h" }
@@ -50,7 +51,7 @@ export const loginHandler: RequestHandler = async (req, res, next) => {
     res.cookie("myToken", token, {
       httpOnly: true,
       secure: true,
-      // expires: new Date(dateAfter2MinInMili)
+      expires: new Date(Date.now() + 86400000),
     });
 
     res.status(200).send({ message: "LoggedIn successfully" });
