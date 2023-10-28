@@ -1,4 +1,4 @@
-import { crudRouter } from "./crud.mjs";
+import { crudRouter } from "./appointment.mjs";
 import { authRouter } from "./auth.mjs";
 import { userProfileRouter } from "./user.mjs";
 

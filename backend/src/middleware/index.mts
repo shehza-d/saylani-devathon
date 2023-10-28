@@ -10,7 +10,7 @@ router.use(express.json());
 // router.use(tokenVerification)
 router.use(
   cors({
-    origin: ["http://localhost:3000", "https://localhost:3000", "*"],
+    origin: ["http://localhost:3000", "https://localhost:3003", "*"],
     credentials: true,
   })
 );

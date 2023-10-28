@@ -7,7 +7,7 @@ const collection = "users";
 const userCol = db.collection<IUser>(collection);
 
 const getUserProfile: RequestHandler = async (req, res) => {
-  const userId = req.params?.userId || req.body?.decoded?._id;
+  const userId = req?.params?.id || req.body?.decoded?._id;
 
   if (!ObjectId.isValid(userId)) {
     res.status(403).send({ message: `Invalid user id` });
@@ -25,7 +25,11 @@ const getUserProfile: RequestHandler = async (req, res) => {
         _id: result?._id,
         name: result?.name,
         email: result?.email,
-        isAdmin: result?.isAdmin,
+        isDoctor: result?.isDoctor,
+        experience: result?.experience,
+        organization: result?.organization,
+        specialization: result?.specialization,
+        createdOn: result?.createdOn,
       },
     });
   } catch (err) {
@@ -34,10 +38,10 @@ const getUserProfile: RequestHandler = async (req, res) => {
   }
 };
 
-const getAllUsers: RequestHandler = async (req, res) => {
+const getAllDoctors: RequestHandler = async (req, res) => {
   try {
     const data = await userCol
-      .find<IUser>({})
+      .find<IUser>({ isDoctor: true })
       .sort({ _id: -1 })
       .project({ password: 0 })
       .limit(150)
@@ -53,4 +57,8 @@ const getAllUsers: RequestHandler = async (req, res) => {
   }
 };
 
-export { getUserProfile, getAllUsers };
+const checkValidToken: RequestHandler = async (req, res) => {
+  res.status(200).send({ message: "token ok" });
+};
+
+export { getUserProfile, getAllDoctors, checkValidToken };

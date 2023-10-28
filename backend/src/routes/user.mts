@@ -1,10 +1,10 @@
 import express from "express";
-import { getUserProfile, getAllUsers } from "../controllers/users.js";
+import { getUserProfile, getAllDoctors ,checkValidToken} from "../controllers/users.js";
 
 const router = express.Router();
 
-router.get("/profile", getUserProfile);
+router.get("/isValidToken", checkValidToken); //remove
 router.get("/profile/:id", getUserProfile);
-router.get("/profiles", getAllUsers);
+router.get("/profiles", getAllDoctors);
 
 export { router as userProfileRouter };

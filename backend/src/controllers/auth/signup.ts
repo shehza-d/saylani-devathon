@@ -8,20 +8,29 @@ const collection = "users";
 const userCol = db.collection<IUser>(collection);
 
 export const signupHandler: RequestHandler = async (req, res, next) => {
-  let { email, name, password } = req?.body;
+  let {
+    name,
+    email,
+    password,
+    isDoctor,
+    organization,
+    experience,
+    specialization,
+  } = req?.body as IUser;
 
   const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/; // testing left
 
-  if (!isValid(name) || !isValid(email) || !isValid(password)) {
+  if (
+    !isValid(name) ||
+    !isValid(email) ||
+    !isValid(password) ||
+    typeof isDoctor === "undefined"
+    // !isValid(organization) ||
+    // !isValid(experience) ||
+    // !isValid(specialization)this is not req for Patient
+  ) {
     // validation of length and type is required
-    res.status(403).send({
-      message: `Required parameters missing!`,
-      exampleRequest: {
-        name: "shehzad",
-        email: "shehzad.dev@pm.me",
-        password: "Secret123",
-      },
-    });
+    res.status(403).send({ message: `Required parameters missing!` });
     return;
   }
   if (!emailRegex.test(email)) {
@@ -44,16 +53,28 @@ export const signupHandler: RequestHandler = async (req, res, next) => {
 
     const passwordHash = await stringToHash(req.body.password);
 
-    const insertResponse = await userCol.insertOne({
-      isAdmin: false,
-      name,
-      email,
-      password: passwordHash,
-      createdOn: new Date(),
-    });
-    console.log("insertResponse: ", insertResponse);
+    const doc = isDoctor
+      ? {
+          isDoctor: true,
+          name,
+          email,
+          password: passwordHash,
+          organization,
+          experience,
+          specialization,
+          createdOn: new Date(),
+        }
+      : {
+          isDoctor: false,
+          name,
+          email,
+          password: passwordHash,
+          createdOn: new Date(),
+        };
 
-    res.status(200).send({ message: "Signup successfully!" });
+    const insertResponse = await userCol.insertOne(doc);
+
+    res.status(200).send({ message: "Signup successfully!", insertResponse });
   } catch (err) {
     console.log("error getting data mongodb: ", err);
     res.status(500).send({ message: "Server error, please try again later." });

@@ -39,7 +39,7 @@ export const loginHandler: RequestHandler = async (req, res, next) => {
 
     const token = jwt.sign(
       {
-        isAdmin: result.isAdmin,
+        isDoctor: result.isDoctor,
         name: result.name,
         email,
         _id: result._id,

@@ -1,18 +1,19 @@
 import { useContext, useState } from "react";
 import { GlobalContext } from "../context";
 import { Routes, Route, Link, Navigate } from "react-router-dom";
-import { AuthPage, UserList, ChatScreen, UserProfile } from "../pages";
+import { AuthPage, DoctorList, BookProfile, UserProfile } from "../pages";
 // import axios from "axios";
 import NavBar from "../components/ui/NavBar";
 import useCheckLoginStatus from "../hooks/useCheckLoginStatus";
 
 export default function AppRouter() {
-  const { state, dispatch } = useContext(GlobalContext);
-  useCheckLoginStatus()
-  // const [state, setTesting] = useState<any>({ isLogin: null });
+  // const { state, dispatch } = useContext(GlobalContext);
+
+  useCheckLoginStatus();
+  const [state, setTesting] = useState<any>({ isLogin: true });
   const { isLogin } = state;
 
-  console.log("🚀 ~ file: AppRouter.tsx:12 ~ AppRouter ~ isLogin:", isLogin)
+  console.log("🚀 ~ file: AppRouter.tsx:12 ~ AppRouter ~ isLogin:", isLogin);
   // let isLogin = true;
   // console.log("state", state);
   // setTimeout(() => {
@@ -33,9 +34,9 @@ export default function AppRouter() {
       {/* authenticated(secure) routes */}
       {isLogin && (
         <Routes>
-          <Route path="/" element={<UserList />} />
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/chat/:id" element={<ChatScreen />} />
+          <Route path="/" element={<DoctorList />} />
+          <Route path="/profiles" element={<UserProfile />} />
+          <Route path="/profile/:id" element={<BookProfile />} />
           {/* <Route path="/change-password" element={<ChangePassword />} /> */}
           <Route path="*" element={<Navigate to="/" replace={true} />} />
         </Routes>

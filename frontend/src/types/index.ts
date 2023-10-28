@@ -8,7 +8,11 @@ export interface IUser {
   name: string;
   email: string;
   password: string;
-  isAdmin: boolean;
+  isDoctor: boolean; // Patient or Doctor
+  organization?: string; // doc only
+  experience?: number; // doc only
+  specialization?: string; // doc only
+  // timing:'5 10'
 }
 
 // context api

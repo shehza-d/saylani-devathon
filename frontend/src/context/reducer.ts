@@ -5,7 +5,7 @@ export const reducer = (state: IInitialData, action: ActionType) => {
     //
     case "USER_LOGIN": {
       if (action?.payload) {
-        const role = action.payload?.isAdmin ? "admin" : "user";
+        const role = action.payload?.isDoctor ? "doctor" : "patient";
         const user = {
           name: action.payload?.name,
           email: action.payload?.email,

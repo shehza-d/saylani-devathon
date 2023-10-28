@@ -18,6 +18,6 @@ router.post("/logout", (req, res) => {
   res.send({ message: "Logout successful" });
 });
 
-router.post("/forget-password", forgetPassword);
+// router.post("/forget-password", forgetPassword);
 
 export { router as authRouter };
