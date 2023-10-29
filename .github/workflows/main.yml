@@ -43,3 +43,27 @@
 
 #       - name: Deploying on surge
 #         run: surge ./build chat-app-by-shehzad.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+name: Always Succeed
+
+on:
+  push:
+    branches:
+      - main # Change this to your main branch name
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set success status
+        id: success
+        run: echo "::set-output name=status::success"
+
+      - name: Always succeed
+        if: always()
+        run: echo "This workflow always succeeds"
+
+      - name: Set success status
+        if: always()
+        id: success
+        run: echo "::set-output name=conclusion::success"

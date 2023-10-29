@@ -42,7 +42,7 @@ const getAllAppointments = async (req: Request, res: Response) => {
 
     if (!data) throw Error("Appointment Not Found!");
 
-    res.send({ message: "Appointment found", data });
+    res.status(200).send({ message: "Appointment found", data });
   } catch (err: any) {
     res.status(500).send({ message: err.message || "Unknown Error" });
   }
