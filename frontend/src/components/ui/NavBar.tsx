@@ -3,16 +3,15 @@ import { GlobalContext } from "../../context/index";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { getUrl } from "../../helpers";
-
-import logo from "@/public/assets/logoipsum.svg";
+import { FiMenu as MenuIcon } from "react-icons/fi";
+import { RxCross1 as CrossIcon } from "react-icons/rx";
 import { useContext, useEffect, useState } from "react";
-import { FiMenu, RxCross1, CartLogo } from "@/lib/icons";
-// import { usePathname } from "next/navigation";
+
 
 
 const navLinks = [
   { title: "home", link: "/", id: 1 },
-  { title: "profile", link: "/profile", id: 2 },
+  { title: "logout", link: "/logout", id: 2 },
   //   { title: "men", link: "/products/men", id: 3 },
 ];
 
@@ -54,45 +53,59 @@ const navLinks = [
 //   );
 // }
 
-
 export default function Navbar() {
-  const { state, dispatch } = useContext(GlobalContext);
-  // const [totalProductQuantity, setTotalProductQuantity] = useState(0);
-  const [open, setOpen] = useState(false);
-  const pathname = usePathname();
+  const [open, setOpen] = useState(false); // this open refers to dropdown menu of mobile
+  const [showNavbar, setShowNavbar] = useState(false);
+  const pathname = "home"
 
   // useEffect(() => {
-  //   let totalQuantity = 0;
-  //   state.cart.map((item) => {
-  //     totalQuantity += item.quantity;
-  //   });
-  //   // console.log(
-  //   //   "🚀 ~ file: index.tsx:19 ~ getTotalQuantity ~ totalQuantity:",
-  //   //   totalQuantity
-  //   // );
-  //   setTotalProductQuantity(totalQuantity);
-  // }, [state]);
-  // console.log("🚀 ~ file: index.tsx:27 ~ Navbar ~ state:", state.cart);
+  //   if (pathname !== "/") {
+  //     setShowNavbar(true);
+  //     return;
+  //   }
+
+  //   // navbar is shown after 500px has been scrolled
+  //   const handleScroll = () => {
+  //     if (window.scrollY > 400) {
+  //       setShowNavbar(true);
+  //     } else {
+  //       setShowNavbar(false);
+  //       setOpen(false);
+  //     }
+  //   };
+  //   window.addEventListener("scroll", handleScroll);
+
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [pathname]);
+
+  const navColor = "bg-white/75 backdrop-blur-md";
 
   return (
-    <nav className="sticky  top-0 z-50 w-full bg-white shadow-xl drop-shadow-md">
-      <div className="mx-auto max-w-5xl">
+    <>
+      <nav
+        className={`relative top-0 z-[102] px-4 w-full ${navColor} shadow-xl ${
+          showNavbar ? "translate-y-0" : "-translate-y-full"
+        } transform drop-shadow-md transition-transform duration-200`}
+      >
         <div
           className={`desktop-nav-bar fixed left-0 top-0 z-40 ${
             !open && "hidden"
           } h-full w-full`}
         >
           <div className="absolute right-5 top-6">
-            <RxCross1
+            <CrossIcon
               className="text-primary"
               size={25}
               onClick={() => setOpen(false)}
             />
           </div>
-          <div className="m-auto mx-4 mt-16 flex flex-col bg-[#ffffffc9] text-base font-normal text-secondary backdrop-blur-lg">
+          <div
+            className={`m-auto mt-16 flex flex-col text-base ${navColor} font-normal text-black`}
+          >
+            {/* mobile nav links */}
             {navLinks.map((item) => (
-              <Link
-                className={`border-b border-primary py-5 text-lg capitalize ${
+              <a
+                className={`border-primary border-b py-5 text-lg capitalize ${
                   pathname === item.link ? "text-primary" : ""
                 } text-center`}
                 href={item.link}
@@ -100,71 +113,54 @@ export default function Navbar() {
                 onClick={() => setOpen(false)}
               >
                 {item.title}
-              </Link>
+              </a>
             ))}
           </div>
         </div>
-        <div className="nav-bar z-30 w-full rounded-sm bg-white px-4 md:px-8">
-          <div className="m-auto flex  h-16 items-center justify-between rounded-sm">
-            <Link className="flex items-center justify-self-start" href={"/"}>
-              <Image
-                className="h-12 w-12"
-                src={logo}
-                alt="logo"
-                width={50}
-                height={50}
-              />
-              <h1 className="justify-self-center pl-2 text-2xl font-extrabold text-primary">
-                Classy Closet
-              </h1>
-            </Link>
-            {/* <input className="text-violet-700 md:block hidden" type="search" placeholder="dfdfd"/> */}
-            <div className="hidden items-center gap-5 text-secondary md:flex lg:gap-10">
-              {navLinks.map((item) => (
-                <Link
-                  className={`S_Underline relative inline-block px-4 py-2 capitalize ${
-                    pathname === item.link
-                      ? "text-primary after:bg-primary"
-                      : "after:bg-secondary"
-                  } hover:after:left-3 hover:after:w-[72%]`}
-                  href={item.link}
-                  key={item.id}
-                >
-                  {item.title}
-                </Link>
-              ))}
-            </div>
+        <div
+          role="navigation"
+          className="container-x nav-bar z-30 m-auto flex h-16 w-full items-center justify-between rounded-sm bg-transparent"
+        >
+          <a className="flex items-center justify-self-start" href={"/"}>
+            <img
+              className="h-12 "
+              src="https://saylaniwelfare.com/static/media/logo_saylaniwelfare.22bf709605809177256c.png"
+              alt="logo"
+              width={150}
+              height={40}
+            />
+            <h1 className="text-primary justify-self-center pl-2 text-xl ml:text-2xl font-extrabold">
+             Find Doctor App
+            </h1>
+          </a>
+          {/* <input className="text-violet-700 md:block hidden" type="search" placeholder="dfdfd"/> */}
+          <div className="hidden items-center gap-2 text-black md:flex">
+            {navLinks.map((item) => (
+              <a
+                className={`S_Underline relative inline-block px-2 py-2 capitalize lg:px-4 ${
+                  pathname === item.link
+                    ? "text-primary after:bg-primary"
+                    : "after:bg-black"
+                } hover:after:left-3 hover:after:w-[72%]`}
+                href={item.link}
+                key={item.id}
+              >
+                {item.title}
+              </a>
+            ))}
+          </div>
 
-            <div className="flex items-center gap-4">
-              <Link
-                className="relative p-2"
-                href={"/cart"}
-                onClick={() => setOpen(false)}
-              >
-                <CartLogo
-                  className={`h-8 w-8 ${
-                    pathname === "/cart" ? "text-primary" : ""
-                  }`}
-                />
-                {/* <span className="absolute right-[5px] top-0 flex h-[18px] w-[18px] items-start justify-center rounded-full bg-[#F02D34] text-xs font-semibold leading-3 text-white">
-                  {totalProductQuantity}
-                </span> */}
-              </Link>
-              <div
-                className={`block justify-self-end md:hidden ${
-                  open && "opacity-0"
-                }`}
-              >
-                <FiMenu
-                  size={24}
-                  className={`h-8 w-8 text-primary`}
-                  onClick={() => setOpen(true)}
-                />
-              </div>
+          <div className="flex items-center gap-4 md:hidden">
+            <div className={`block justify-self-end ${open && "opacity-0"}`}>
+              <MenuIcon
+                size={24}
+                className={`text-primary h-8 w-8`}
+                onClick={() => setOpen(true)}
+              />
             </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 }

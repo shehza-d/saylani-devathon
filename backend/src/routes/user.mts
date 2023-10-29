@@ -4,6 +4,7 @@ import { getUserProfile, getAllDoctors ,checkValidToken} from "../controllers/us
 const router = express.Router();
 
 router.get("/isValidToken", checkValidToken); //remove
+router.get("/profile", getUserProfile);
 router.get("/profile/:id", getUserProfile);
 router.get("/profiles", getAllDoctors);
 
