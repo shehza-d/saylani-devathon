@@ -10,7 +10,7 @@ export default function AppRouter() {
   // const { state, dispatch } = useContext(GlobalContext);
 
   useCheckLoginStatus();
-  const [state, setTesting] = useState<any>({ isLogin: true });
+  const [state, setTesting] = useState<any>({ isLogin: false });
   const { isLogin } = state;
 
   console.log("🚀 ~ file: AppRouter.tsx:12 ~ AppRouter ~ isLogin:", isLogin);

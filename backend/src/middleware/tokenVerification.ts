@@ -1,50 +1,43 @@
 import jwt from "jsonwebtoken";
-import type { Request, Response, NextFunction } from "express";
-// import {} from "../../../types/index.js";
-const SECRET = process.env.SECRET!;
+import type { RequestHandler } from "express";
+import { SECRET } from "../config/index.js";
 
 interface IJwtPayload {
   id: string;
   exp: number;
 }
 
-export const tokenVerification = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  console.log("req.cookies: ", req.cookies); //it's a security vulnerability to print token in production
+export const tokenVerification: RequestHandler = async (req, res, next) => {
+  const token = req?.cookies?.myToken;
 
-  if (!req?.cookies?.Token) {
+  // console.log("req.cookies: ", token); //it's a security vulnerability to print token in production
+
+  if (!token) {
     res
       .status(401)
-      .send({ message: "Include http-only credentials with every request" });
+      .send({ message: "Include http-only credentials with every request!" });
     return;
   }
 
   try {
-    const decodedData = jwt.verify(req.cookies.Token, SECRET) as IJwtPayload;
-    console.log("decodedData: ", decodedData);
+    const decodedData = jwt.verify(token, SECRET) as IJwtPayload;
 
-    const currentTime = new Date().getTime() / 1000;
+    console.log("token approved");
 
-    if (decodedData?.exp < currentTime) {
-      res.status(401);
-      res.cookie("Token", "", {
+    req.body.decodedData = decodedData;
+
+    next();
+  } catch (err) {
+    res
+      .cookie("myToken", "", {
         maxAge: 1,
         httpOnly: true,
-        sameSite: "none",
         secure: true,
-      });
-      res.send({ message: "token expired" });
-    } else {
-      console.log("token approved");
-      req.body.token = decodedData;
-      next();
-    }
-    //
-  } catch (err) {
-    res.status(401).send("invalid token");
-    console.log("🚀 ~ file: tokenVerification.ts:22 ~ ~ err:", err);
+        sameSite: "none",
+      })
+      .status(401)
+      .send({ message: "Invalid token!" });
+
+    console.log("🚀 ~ tokenVerification.ts:22 ~ ~ err:", err);
   }
 };

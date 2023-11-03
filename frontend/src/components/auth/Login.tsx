@@ -25,7 +25,7 @@ export default function LoginForm() {
     // Handle login logic here (e.g., send data to server, perform validation, etc.)
 
     try {
-      const res = await axios.post(
+      const { data } = await axios.post(
         `${getUrl()}/api/v1/login`,
         {
           email: formData.email,
@@ -35,17 +35,17 @@ export default function LoginForm() {
           withCredentials: true,
         },
       );
-      console.log("🚀 ~ file: Login.tsx:38 ~ handleSubmit ~ res:", res);
+      console.log("🚀 ~ file: Login.tsx:38 ~ handleSubmit ~ res:", data);
 
       dispatch({
         type: "USER_LOGIN",
-        payload: res.data?.data,
+        payload: data?.data,
       });
 
-      toast.success("Successfully created!");
+      toast.success(data?.message || "Logged In Successfully!");
     } catch (err: any) {
       console.log("🚀 ~ file: Login.tsx:47 ~ handleSubmit ~ err:", err);
-      toast.error(err.data?.message || "unknown error!");
+      toast.error(err?.response?.data?.message || "unknown error!");
     }
   };
 

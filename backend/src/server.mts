@@ -2,7 +2,7 @@ import express from "express";
 import { PORT } from "./config/index.js";
 import { middlewareRouter } from "./middleware/index.mjs";
 import { userProfileRouter, crudRouter, authRouter } from "./routes/index.js";
-// import { tokenVerification } from "./middleware/tokenVerification.js";
+import { tokenVerification } from "./middleware/tokenVerification.js";
 
 const app = express();
 const version = "/api/v1";
@@ -13,7 +13,7 @@ app.use(version, middlewareRouter);
 app.use(version, authRouter); // this includes login signup
 
 // middleware token verification
-// app.use(version, tokenVerification);
+app.use(version, tokenVerification);
 
 // secure routes
 app.use(version, crudRouter);
