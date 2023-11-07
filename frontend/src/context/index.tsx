@@ -4,8 +4,7 @@ import { reducer } from "./reducer";
 import { IGlobalContext, IInitialData } from "../types/index";
 
 const data: IInitialData = {
-  // @ts-ignore
-  user: {},
+  user: undefined,
   role: null,
   isLogin: null,
   darkTheme: true,

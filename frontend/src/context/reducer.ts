@@ -12,7 +12,7 @@ export const reducer = (state: IInitialData, action: ActionType) => {
           _id: action.payload?._id,
           joined: action.payload?.createdOn,
         };
-        
+
         return { ...state, isLogin: true, role, user };
       }
       return state;

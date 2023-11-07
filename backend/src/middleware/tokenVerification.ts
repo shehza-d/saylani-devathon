@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import type { RequestHandler } from "express";
 import { SECRET } from "../config/index.js";
+import { tokenName } from "../config/constants.js";
 
 interface IJwtPayload {
   id: string;
@@ -29,8 +30,8 @@ export const tokenVerification: RequestHandler = async (req, res, next) => {
     next();
   } catch (err) {
     res
-      .cookie("myToken", "", {
-        maxAge: 1,
+      .cookie(tokenName, "", {
+        maxAge: 1, // try only clear cookie here // remove
         httpOnly: true,
         secure: true,
         sameSite: "none",

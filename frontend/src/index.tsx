@@ -8,7 +8,7 @@ import ContextProvider from "./context/index";
 import { Toaster } from "react-hot-toast"; // https://react-hot-toast.com/docs
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById("root") as HTMLElement,
 );
 root.render(
   <React.StrictMode>
@@ -18,7 +18,7 @@ root.render(
         <Toaster /> {/* Toaster is being used for notifications */}
       </ContextProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

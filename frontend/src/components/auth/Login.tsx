@@ -3,6 +3,7 @@ import axios from "axios";
 import { GlobalContext } from "../../context/index";
 import { getUrl } from "../../helpers";
 import toast from "react-hot-toast";
+// import useCheckLoginStatus from "../hooks/useCheckLoginStatus";
 
 export default function LoginForm() {
   const { state, dispatch } = useContext(GlobalContext);
@@ -35,11 +36,10 @@ export default function LoginForm() {
           withCredentials: true,
         },
       );
-      console.log("🚀 ~ file: Login.tsx:38 ~ handleSubmit ~ res:", data);
 
       dispatch({
         type: "USER_LOGIN",
-        payload: data?.data,
+        payload: data?.userData,
       });
 
       toast.success(data?.message || "Logged In Successfully!");

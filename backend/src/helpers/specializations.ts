@@ -1,4 +1,5 @@
-const specializations = [//remove space
+const specializations = [
+  //remove space
   "Anatomical Pathology",
   "Anesthesiology",
   "Cardiology",

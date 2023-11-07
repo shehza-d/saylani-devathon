@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 
 const router = express.Router();
 
-//middleware configuration
+// middleware configuration
 
 router.use(express.json());
 router.use(cookieParser());
@@ -13,9 +13,9 @@ router.use(cookieParser());
 
 router.use(
   cors({
-    origin: ["http://localhost:3000", "https://localhost:3003", "*"],
+    origin: ["http://localhost:3000", "https://", "*"],
     credentials: true,
-  })
+  }),
 );
 
 export { router as middlewareRouter };

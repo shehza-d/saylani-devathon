@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { verifyHash } from "bcrypt-inzi";
 import { IUser } from "../../types/index.js";
 import { SECRET } from "../../config/index.js";
+import { tokenName } from "../../config/constants.js";
 
 const collection = "users";
 const userCol = db.collection<IUser>(collection);
@@ -46,14 +47,14 @@ export const loginHandler: RequestHandler = async (req, res, next) => {
         _id: user._id,
       },
       SECRET,
-      { expiresIn: stayLoggedIn ? "30d" : "1d" }
+      { expiresIn: stayLoggedIn ? "30d" : "1d" },
     );
 
     // @ts-ignore
     delete user?.password; // password should not be sent to client
 
     res
-      .cookie("myToken", token, {
+      .cookie(tokenName, token, {
         httpOnly: true,
         secure: true,
         // expires: new Date(Date.now() + 86400000), // browser delete this cookie after 1 day BUT checking expiration of token is still must

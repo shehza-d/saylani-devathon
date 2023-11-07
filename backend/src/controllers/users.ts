@@ -7,8 +7,6 @@ const collection = "users";
 const userCol = db.collection<IUser>(collection);
 
 const getUserProfile: RequestHandler = async (req, res) => {
-  console.log("req.body?.decodedData", req.body?.decodedData);
-
   const userId = req?.params?.id || req.body?.decodedData?._id;
 
   if (!ObjectId.isValid(userId)) {
@@ -17,26 +15,18 @@ const getUserProfile: RequestHandler = async (req, res) => {
   }
 
   try {
-    const result = await userCol.findOne({ _id: new ObjectId(userId) });
+    const user = await userCol.findOne({ _id: new ObjectId(userId) });
 
-    console.log("result: ", result); // [{...}] []
+    // @ts-ignore
+    delete user?.password; // password hash should not be sent to client
 
     res.status(200).send({
       message: "User profile fetched!",
-      data: {
-        _id: result?._id,
-        name: result?.name,
-        email: result?.email,
-        isDoctor: result?.isDoctor,
-        experience: result?.experience,
-        organization: result?.organization,
-        specialization: result?.specialization,
-        createdOn: result?.createdOn,
-      },
+      userData: user,
     });
   } catch (err) {
     console.log("error getting data mongodb: ", err);
-    res.status(500).send("server error, please try later");
+    res.status(500).send({ message: "server error, please try later" });
   }
 };
 

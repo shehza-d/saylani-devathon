@@ -1,5 +1,3 @@
-export {};
-
 export const getUrl = () => {
   const isProduction = window.location.href.includes("https");
 
