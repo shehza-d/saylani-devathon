@@ -10,11 +10,13 @@ const router = express.Router();
 router.post("/login", loginHandler);
 router.post("/signup", signupHandler);
 router.post("/logout", (req, res) => {
-  res.clearCookie("myToken", {
-    httpOnly: true,
-    sameSite: "none",
-    secure: true,
-  });
+  res.clearCookie("myToken"
+  // , {
+  //   httpOnly: true,
+  //   sameSite: "none",
+  //   secure: true,
+  // }
+  );
   res.send({ message: "Logout successful" });
 });
 

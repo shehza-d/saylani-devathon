@@ -7,7 +7,9 @@ const collection = "users";
 const userCol = db.collection<IUser>(collection);
 
 const getUserProfile: RequestHandler = async (req, res) => {
-  const userId = req?.params?.id || req.body?.decoded?._id;
+  console.log("req.body?.decodedData", req.body?.decodedData);
+
+  const userId = req?.params?.id || req.body?.decodedData?._id;
 
   if (!ObjectId.isValid(userId)) {
     res.status(403).send({ message: `Invalid user id` });
@@ -58,7 +60,7 @@ const getAllDoctors: RequestHandler = async (req, res) => {
 };
 
 const checkValidToken: RequestHandler = async (req, res) => {
-  res.status(200).send({ message: "token ok" });
+  res.status(204);
 };
 
 export { getUserProfile, getAllDoctors, checkValidToken };

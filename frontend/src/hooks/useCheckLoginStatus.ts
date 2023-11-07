@@ -56,7 +56,7 @@ export default function useCheckLoginStatus() {
             Expires: "0",
           },
         });
-
+ 
         console.log("🚀 ~ file: useCheckLoginStatus.ts:29 ~ ~ data:", data);
 
         dispatch({ type: "USER_LOGIN", payload: data.data });
