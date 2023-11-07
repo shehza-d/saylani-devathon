@@ -1,89 +1,23 @@
-import { Link } from "react-router-dom";
-import { GlobalContext } from "../../context/index";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { getUrl } from "../../helpers";
 import { FiMenu as MenuIcon } from "react-icons/fi";
 import { RxCross1 as CrossIcon } from "react-icons/rx";
-import { useContext, useEffect, useState } from "react";
-
-
+import { useState } from "react";
+import useLogout from "../../hooks/useLogout";
 
 const navLinks = [
   { title: "home", link: "/", id: 1 },
-  { title: "logout", link: "/logout", id: 2 },
-  //   { title: "men", link: "/products/men", id: 3 },
+  { title: "Appointment", link: "/", id: 2 },
 ];
-
-// export default function NavBar() {
-//   const { state, dispatch } = useContext(GlobalContext);
-// console.log('getUrl()',getUrl());
-
-//   const logoutHandler = async () => {
-//     try {
-//       const response = await axios.post(
-//         `${getUrl()}/logout`,
-//         {},
-//         { withCredentials: true },
-//       );
-//       console.log("response: ", response);
-//       toast.success("Here is your toast.");
-
-//       dispatch({ type: "USER_LOGOUT" });
-//     } catch (error) {
-//       console.log("axios error: ", error);
-//       toast.error("err");
-//     }
-//   };
-
-//   return (
-//     <nav className="flex justify-around">
-//       <ul className="flex">
-//         {navLinks.map((item) => (
-//           <li className="border" key={item.id}>
-//             <Link to={item.link}>{item.title}</Link>
-//           </li>
-//         ))}
-//       </ul>
-//       <p className="capitalize">{state?.user?.name}</p>
-//       <button className="border" onClick={logoutHandler}>
-//         Logout
-//       </button>
-//     </nav>
-//   );
-// }
-
 export default function Navbar() {
   const [open, setOpen] = useState(false); // this open refers to dropdown menu of mobile
   const [showNavbar, setShowNavbar] = useState(false);
-  const pathname = "home"
-
-  // useEffect(() => {
-  //   if (pathname !== "/") {
-  //     setShowNavbar(true);
-  //     return;
-  //   }
-
-  //   // navbar is shown after 500px has been scrolled
-  //   const handleScroll = () => {
-  //     if (window.scrollY > 400) {
-  //       setShowNavbar(true);
-  //     } else {
-  //       setShowNavbar(false);
-  //       setOpen(false);
-  //     }
-  //   };
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, [pathname]);
+  const pathname = "home";
 
   const navColor = "bg-white/75 backdrop-blur-md";
 
   return (
     <>
       <nav
-        className={`relative top-0 z-[102] px-4 w-full ${navColor} shadow-xl ${
+        className={`relative top-0 z-[102] w-full px-4 ${navColor} shadow-xl ${
           showNavbar ? "translate-y-0" : "-translate-y-full"
         } transform drop-shadow-md transition-transform duration-200`}
       >
@@ -129,8 +63,8 @@ export default function Navbar() {
               width={150}
               height={40}
             />
-            <h1 className="text-primary justify-self-center pl-2 text-xl ml:text-2xl font-extrabold">
-             Find Doctor App
+            <h1 className="text-primary justify-self-center pl-2 text-xl font-extrabold ml:text-2xl">
+              Find Doctor App
             </h1>
           </a>
           {/* <input className="text-violet-700 md:block hidden" type="search" placeholder="dfdfd"/> */}
@@ -149,6 +83,8 @@ export default function Navbar() {
               </a>
             ))}
           </div>
+
+          <button onClick={useLogout()}>Logout</button>
 
           <div className="flex items-center gap-4 md:hidden">
             <div className={`block justify-self-end ${open && "opacity-0"}`}>

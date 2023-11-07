@@ -1,14 +1,10 @@
-import { GlobalContext } from "../context/index";
+import { useEffect, useContext } from "react";
 import axios from "axios";
+import { GlobalContext } from "../context/index";
 import { getUrl } from "../helpers";
-import { useEffect, useState, useContext } from "react";
 
 export default function useCheckLoginStatus() {
-  const { state, dispatch } = useContext(GlobalContext);
-
-  console.log(
-    "🚀 ~ file: useCheckLoginStatus.ts:8 ~ useCheckLoginStatus ~ state:",
-  );
+  const { dispatch } = useContext(GlobalContext);
 
   useEffect(() => {
     // Add a request interceptor
@@ -56,15 +52,10 @@ export default function useCheckLoginStatus() {
             Expires: "0",
           },
         });
- 
-        console.log("🚀 ~ file: useCheckLoginStatus.ts:29 ~ ~ data:", data);
 
-        dispatch({ type: "USER_LOGIN", payload: data.data });
+        dispatch({ type: "USER_LOGIN", payload: data.userData });
       } catch (err) {
-        console.log(
-          "🚀 ~ file: useCheckLoginStatus.ts:42 ~ checkLoginStatus ~ err:",
-          err,
-        );
+        console.log("🚀 ~ file: useCheckLoginStatus.ts:42 ~ err:", err);
         dispatch({ type: "USER_LOGOUT" });
       }
     };
