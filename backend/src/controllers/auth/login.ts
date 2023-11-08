@@ -47,7 +47,7 @@ export const loginHandler: RequestHandler = async (req, res, next) => {
         _id: user._id,
       },
       SECRET,
-      { expiresIn: stayLoggedIn ? "30d" : "1d" },
+      { expiresIn: stayLoggedIn ? "30d" : "1d" }
     );
 
     // @ts-ignore
@@ -57,7 +57,8 @@ export const loginHandler: RequestHandler = async (req, res, next) => {
       .cookie(tokenName, token, {
         httpOnly: true,
         secure: true,
-        // expires: new Date(Date.now() + 86400000), // browser delete this cookie after 1 day BUT checking expiration of token is still must
+        sameSite: "none",
+        expires: new Date(Date.now() + 86400000), // this is necessary because if not provided gcp set expiry after 1s // browser delete this cookie after 1 day BUT checking expiration of token is still must
       })
       .status(200)
       .send({ message: "Logged In successfully!", userData: user });

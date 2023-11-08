@@ -21,9 +21,9 @@ app.use(version, tokenVerification);
 app.use(version, crudRouter);
 app.use(version, userProfileRouter);
 
-app.get("/testing", (req, res) => res.send("Devathon server testing v1.2"));
+app.get("/testing", (req, res) => res.send("Devathon server testing v1.3"));
 
-app.use((req, res) => res.send("No route matched"));
+app.use((req, res) => res.status(404).send("No route matched"));
 
 app.listen(PORT, () => console.log(`app listening on ===>>> ${PORT}`));
 
