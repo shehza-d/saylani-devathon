@@ -3,14 +3,12 @@ import { GlobalContext } from "../context";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AuthPage, DoctorList, BookProfile, UserProfile } from "../pages";
 import NavBar from "../components/ui/NavBar";
-import useCheckLoginStatus from "../hooks/useCheckLoginStatus";
 
 export default function AppRouter() {
   const {
     state: { isLogin },
   } = useContext(GlobalContext);
 
-  useCheckLoginStatus();
 
   return (
     <>
