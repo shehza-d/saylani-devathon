@@ -12,6 +12,10 @@ export default function useInterceptors() {
         // Do something before request is sent
 
         config.withCredentials = true;
+        console.log(
+          "🚀 ~ file: useInterceptors.ts:12 ~ useEffect ~ config:",
+          config,
+        );
 
         return config;
       },

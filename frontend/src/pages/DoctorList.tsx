@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { IUser } from "../types";
+import { getUrl } from "../helpers";
 
 export default function DoctorList() {
   const [doctorsData, setDoctorsData] = useState<IUser[]>([]);
@@ -8,13 +9,7 @@ export default function DoctorList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "https://products-api-dot-learning-chatbot-393109.lm.r.appspot.com/api/v1/profiles",
-        );
-        console.log(
-          "🚀 ~ file: DoctorList.tsx:14 ~ fetchData ~ response:",
-          response,
-        );
+        const response = await axios.get(`${getUrl()}/api/v1/profiles`);
 
         const data = response.data.data as IUser[];
 

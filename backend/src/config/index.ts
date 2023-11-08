@@ -1,7 +1,7 @@
 // npm i dotenv
 import "dotenv/config";
 
-const PORT = process.env.PORT || 3003;
+const PORT = process.env.PORT || 3005;
 // const OPEN_AI_KEY = process.env.OPEN_AI_KEY;
 const DB_NAME = process.env.DB_NAME || "";
 const DB_USERNAME = process.env.DB_USERNAME || "shehzad";

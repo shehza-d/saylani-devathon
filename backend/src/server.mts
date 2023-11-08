@@ -7,6 +7,8 @@ import { tokenVerification } from "./middleware/tokenVerification.js";
 const app = express();
 const version = "/api/v1";
 
+//
+
 app.use(version, middlewareRouter);
 
 // not secure routes
@@ -19,12 +21,16 @@ app.use(version, tokenVerification);
 app.use(version, crudRouter);
 app.use(version, userProfileRouter);
 
-app.get("/testing", (req, res) => res.send("Devathon server testing"));
+app.get("/testing", (req, res) => res.send("Devathon server testing v1.2"));
 
-// app.get("/", express.static(path.join(__dirname, "./public/index.html")));
 app.use((req, res) => res.send("No route matched"));
 
 app.listen(PORT, () => console.log(`app listening on ===>>> ${PORT}`));
 
+// to host you frontend on the server
 // import path from "path";
 // const __dirname = path.resolve();
+// app.use("/", express.static(path.join(__dirname, "./public/build")));
+// app.get("*", (req, res) =>
+//   res.sendFile(path.join(__dirname + "./public/build/index.html"))
+// );

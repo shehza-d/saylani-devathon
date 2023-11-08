@@ -4,8 +4,8 @@ import useCheckLoginStatus from "./hooks/useCheckLoginStatus";
 import useInterceptors from "./hooks/useInterceptors";
 
 export default function App() {
-  useCheckLoginStatus();
   useInterceptors();
+  useCheckLoginStatus();
 
   return (
     <main className="">
