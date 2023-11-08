@@ -57,7 +57,7 @@ export const loginHandler: RequestHandler = async (req, res, next) => {
       .cookie(tokenName, token, {
         httpOnly: true,
         secure: true,
-        sameSite: "none",
+        sameSite: "none", // not sure if this is necessary or not
         expires: new Date(Date.now() + 86400000), // this is necessary because if not provided gcp set expiry after 1s // browser delete this cookie after 1 day BUT checking expiration of token is still must
       })
       .status(200)
